@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package com.devProblems;
+import "google/protobuf/timestamp.proto";
+
+message UserProto {
+  string uuid = 1;
+  google.protobuf.Timestamp created_at = 2;
+  string created_by = 3;
+  google.protobuf.Timestamp updated_at = 4;
+  string updated_by = 5;
+
+  int64 id = 6;
+  string first_name = 7;
+  string last_name = 8;
+  string email = 9;
+  string password = 10;
+  string phone = 11;
+  repeated AddressProto addresses = 12;
+}
+
+message AddressProto {
+  int64 id = 1;
+  string uuid = 2;
+  string street = 3;
+  string city = 4;
+  string state = 5;
+  string country = 6;
+  string zip_code = 7;
+  double latitude = 8;
+  double longitude = 9;
+  UserProto user = 10;
+}
+
+message UserResponse {
+  repeated UserProto userResponse = 1;
+}
+
+service UserService {
+
+  //unary - synchronous
+  //client will send one request and server will respond with one response.
+  rpc getUsers(UserProto) returns(UserResponse){}
+
+}
+//message Book {
+//  int32 book_id = 1;
+//  string title = 2;
+//  float price = 3;
+//  int32 pages = 4;
+//  int32 author_id = 5;
+//}
+//
+//message Author {
+//  int32 author_id = 1;
+//  string first_name = 2;
+//  string last_name = 3;
+//  string gender = 4;
+//  int32 book_id = 5;
+//}
+//
+//
+//service BookAuthorService {
+//
+//  //unary - synchronous
+//  //client will send one request and server will respond with one response.
+//  rpc getAuthor(Author) returns(Author){}
+//
+//  //sever streaming - Asynchronous
+//  //client will send one request and server will send stream of response to the client.
+//  rpc getBooksByAuthor(Author) returns(stream Book){}
+//
+//  //client streaming - Asynchronous
+//  //client will stream of request and server will respond with one response.
+//  rpc getExpensiveBook(stream Book) returns(Book){}
+//
+//  //bi-directional streaming - Asynchronous
+//  //client will send stream of request and server will respond with stream of response.
+//  rpc getBooksByGender(stream Book) returns (stream Book) {}
+//}

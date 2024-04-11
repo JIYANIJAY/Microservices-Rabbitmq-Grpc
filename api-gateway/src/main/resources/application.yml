@@ -1,0 +1,38 @@
+server:
+  port: 8182
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+          - Path=/user/**
+
+        - id: document-service
+          uri: lb://document-service
+          predicates:
+            - Path=/document/api/v1/**
+
+
+eureka:
+  instance:
+    hostname: localhost
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMillieseconds: 5000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
